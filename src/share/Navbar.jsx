@@ -1,10 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../customHooks/useAuth";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
+import useCart from "../customHooks/useCart";
 
 const Navbar = () => {
   const { user, logOutUser } = useAuth();
-  // console.log(count);
+  const [cart] = useCart();
   const handleLogout = () => {
     logOutUser()
       .then((res) => {
@@ -77,7 +78,7 @@ const Navbar = () => {
           </Link>
 
           {/* <p className=" absolute top-2 right-24 text-center font-extrabold  rounded-3xl text-pink-700">
-            {count}
+            {cart.length}
           </p> */}
 
           {user ? (

@@ -10,7 +10,7 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../firebaseConfig/firebaseConfig";
-import axios from "axios";
+import useAxiosPublic from "../customHooks/useAxiosPublic";
 
 export const AuthContext = createContext();
 const googleProvider = new GoogleAuthProvider();
@@ -19,6 +19,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
+  const axiosPublic = useAxiosPublic;
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -38,6 +39,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const logOutUser = () => {
+    setLoading(true);
     return signOut(auth);
   };
 
@@ -52,8 +54,8 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       setLoading(false);
       if (currentUser) {
-        axios
-          .post("http://localhost:5000/jwt", loggedUser, {
+        axiosPublic
+          .post("/jwt", loggedUser, {
             withCredentials: true,
           })
           .then((res) => {
@@ -64,8 +66,8 @@ const AuthProvider = ({ children }) => {
             console.log(err);
           });
       } else {
-        axios
-          .post("http://localhost:5000/logout", loggedUser, {
+        axiosPublic
+          .post("/logout", loggedUser, {
             withCredentials: true,
           })
           .then((res) => {
@@ -80,7 +82,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       return unSubscribe;
     };
-  }, [user?.email]);
+  }, [user?.email, axiosPublic]);
 
   const userInfo = {
     user,

@@ -1,12 +1,20 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../customHooks/useAuth";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import {
+  loadCaptchaEnginge,
+  LoadCanvasTemplate,
+  validateCaptcha,
+} from "react-simple-captcha";
 
 const Login = () => {
   const [showHide, setShowHide] = useState(true);
-
+  const [disable, setDisable] = useState(true);
+  const captchaRef = useRef(null);
   const { loginUser, resetPassword, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -16,7 +24,7 @@ const Login = () => {
     loginUser(email, password)
       .then((res) => {
         console.log(res.user);
-        navigate("/");
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         console.log(err);
@@ -30,6 +38,16 @@ const Login = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+  useEffect(() => {
+    loadCaptchaEnginge(6);
+  }, []);
+  const handleValidateCaptcha = () => {
+    const captchaValue = captchaRef.current.value;
+    if (validateCaptcha(captchaValue)) {
+      setDisable(false);
+    }
+    console.log(captchaValue);
   };
   return (
     <>
@@ -69,14 +87,38 @@ const Login = () => {
               <a
                 onClick={() => handleResetPassword(user?.email)}
                 href="#"
-                className="label-text-alt py-3 link link-hover mt-5"
+                className="label-text-alt  link link-hover "
               >
                 Forgot password?
               </a>
             </label>
           </div>
+          <div className="form-control">
+            <label className="label">
+              <LoadCanvasTemplate />
+            </label>
+            <input
+              type="text"
+              placeholder="captcha"
+              name="captcha"
+              ref={captchaRef}
+              className="input input-bordered"
+              required
+            />
+            <button
+              onClick={handleValidateCaptcha}
+              className="btn btn-outline btn-sm mt-2 md:w-36"
+            >
+              Validate Captcha
+            </button>
+          </div>
           <div className="form-control mt-6">
-            <input className="btn btn-primary" type="submit" value="Login" />
+            <input
+              className="btn btn-primary "
+              disabled={disable}
+              type="submit"
+              value="Login"
+            />
           </div>
         </form>
         <div>

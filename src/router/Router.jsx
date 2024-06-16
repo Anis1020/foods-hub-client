@@ -11,6 +11,7 @@ import AddAItems from "../dashboardLayout/AddAItems";
 import Order from "../pages/Order";
 import CheckOut from "../pages/CheckOut";
 import Cart from "../pages/Cart";
+import AllUsers from "../dashboardLayout/AllUsers";
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +60,14 @@ export const router = createBrowserRouter([
       {
         path: "/addAItem",
         element: <AddAItems></AddAItems>,
+      },
+      {
+        path: "/cart",
+        element: <Cart></Cart>,
+      },
+      {
+        path: "/users",
+        element: <AllUsers></AllUsers>,
       },
     ],
   },
