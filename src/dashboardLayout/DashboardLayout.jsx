@@ -1,10 +1,13 @@
 import { FaHome, FaShoppingCart, FaUsers, FaUtensils } from "react-icons/fa";
+import { FaBook, FaList } from "react-icons/fa6";
 import { NavLink, Outlet } from "react-router-dom";
+import useAdmin from "../customHooks/useAdmin";
 
 const DashboardLayout = () => {
+  const [admin] = useAdmin();
   return (
     <div className="grid grid-cols-12 lg:w-[95%] ">
-      <div className="col-span-3 space-y-3 bg-pink-200 min-h-screen px-4 py-8">
+      <ul className="col-span-3 space-y-3 bg-pink-200 min-h-screen px-4 py-8">
         <li className="list-none ">
           <NavLink to={"/"}>Home</NavLink>
         </li>
@@ -16,15 +19,29 @@ const DashboardLayout = () => {
           <FaShoppingCart></FaShoppingCart>
           <NavLink to={"/cart"}>Cart </NavLink>
         </li>
-        <li className="list-none flex items-center gap-2">
-          <FaUtensils></FaUtensils>
-          <NavLink to={"/addAItem"}>Add A Items</NavLink>
-        </li>{" "}
-        <li className="list-none flex items-center gap-2">
-          <FaUsers></FaUsers>
-          <NavLink to={"/users"}>All Users</NavLink>
-        </li>
-      </div>
+        {admin ? (
+          <>
+            <li className="list-none flex items-center gap-2">
+              <FaUtensils></FaUtensils>
+              <NavLink to={"/addAItem"}>Add A Items</NavLink>
+            </li>
+            <li className="list-none flex items-center gap-2">
+              <FaList></FaList>
+              <NavLink to={"/addAItem/manage"}>Manage Items</NavLink>
+            </li>
+            <li className="list-none flex items-center gap-2">
+              <FaBook></FaBook>
+              <NavLink to={"/addAItem/bookings"}>Manage Bookings</NavLink>
+            </li>
+            <li className="list-none flex items-center gap-2">
+              <FaUsers></FaUsers>
+              <NavLink to={"/users"}>All Users</NavLink>
+            </li>
+          </>
+        ) : (
+          <></>
+        )}
+      </ul>
       <div className="col-span-9 px-8 py-8">
         <Outlet />
       </div>

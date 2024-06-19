@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "../firebaseConfig/firebaseConfig";
@@ -19,7 +20,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
-  const axiosPublic = useAxiosPublic;
+  const axiosPublic = useAxiosPublic();
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -47,6 +48,12 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return sendPasswordResetEmail(auth, email);
   };
+  const updateUserProfile = (name) => {
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      // photoURL: "https://example.com/jane-q-user/profile.jpg",
+    });
+  };
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       const userEmail = currentUser?.email || user?.email;
@@ -55,11 +62,8 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
       if (currentUser) {
         axiosPublic
-          .post("/jwt", loggedUser, {
-            withCredentials: true,
-          })
+          .post("/jwt", loggedUser, {})
           .then((res) => {
-            console.log(res.data);
             localStorage.setItem("token", res.data);
           })
           .catch((err) => {
@@ -95,6 +99,7 @@ const AuthProvider = ({ children }) => {
     googleLogin,
     githubLogin,
     resetPassword,
+    updateUserProfile,
   };
   return (
     <AuthContext.Provider value={userInfo}>{children}</AuthContext.Provider>

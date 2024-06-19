@@ -1,14 +1,28 @@
 import { useForm } from "react-hook-form";
+import useAxiosPublic from "../customHooks/useAxiosPublic";
 
+const image_hosting_key = import.meta.env.VITE_image_hosting_key;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const AddAItems = () => {
+  const axiosPublic = useAxiosPublic();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
+    // img upload to imgbb
+    const imageFile = { image: data.photo[0] };
+    // console.log(imageFile);
+    const res = await axiosPublic.post(image_hosting_api, imageFile, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+    console.log(res.data);
+
     reset();
   };
   return (
@@ -48,7 +62,7 @@ const AddAItems = () => {
         <div>
           {/* include validation with required or other standard HTML validation rules */}
           <input
-            type="text"
+            type="file"
             className="border w-full p-2 rounded mb-3"
             placeholder="Photo url"
             {...register("photo", { required: true })}

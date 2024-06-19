@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../customHooks/useAuth";
 import { useState } from "react";
+import useAxiosPublic from "../customHooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const Registration = () => {
   const [showHide, setShowHide] = useState(true);
-  const { createUser } = useAuth();
+  const { createUser, googleLogin, updateUserProfile } = useAuth();
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
   const handleRegistration = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -16,6 +20,53 @@ const Registration = () => {
     createUser(email, password)
       .then((res) => {
         console.log(res.user);
+        // updateUser Profile
+        updateUserProfile(userInfo.name)
+          .then((res) => {
+            console.log(res.user);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        // store user in database
+        const registerInfo = {
+          name: userInfo.name,
+          email: userInfo.email,
+        };
+
+        axiosPublic
+          .post("/users", registerInfo)
+          .then((res) => console.log(res.data))
+          .then((err) => console.log(err));
+
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Registration success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleGoogleLogin = () => {
+    googleLogin()
+      .then((res) => {
+        const registerUser = res.user;
+        const userInfo = {
+          name: registerUser.displayName,
+          email: registerUser.email,
+        };
+        axiosPublic
+          .post("/users", userInfo)
+          .then((res) => {
+            console.log(res.data);
+            navigate("/");
+          })
+          .then((err) => console.log(err));
       })
       .catch((err) => {
         console.log(err);
@@ -66,7 +117,12 @@ const Registration = () => {
           </div>
         </form>
         <div>
-          <button className="btn btn-accent w-full mx-8">Google Login</button>
+          <button
+            onClick={handleGoogleLogin}
+            className="btn btn-accent w-full mx-8"
+          >
+            Google Login
+          </button>
           <h2 className="text-center">
             already have an account?{" "}
             <Link className="btn btn-link" to={"/login"}>
