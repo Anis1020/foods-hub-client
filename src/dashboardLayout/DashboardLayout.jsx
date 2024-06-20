@@ -27,11 +27,11 @@ const DashboardLayout = () => {
             </li>
             <li className="list-none flex items-center gap-2">
               <FaList></FaList>
-              <NavLink to={"/addAItem/manage"}>Manage Items</NavLink>
+              <NavLink to={"/manageItem"}>Manage Items</NavLink>
             </li>
             <li className="list-none flex items-center gap-2">
               <FaBook></FaBook>
-              <NavLink to={"/addAItem/bookings"}>Manage Bookings</NavLink>
+              <NavLink to={"/bookings"}>Manage Bookings</NavLink>
             </li>
             <li className="list-none flex items-center gap-2">
               <FaUsers></FaUsers>

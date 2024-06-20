@@ -1,10 +1,14 @@
 import { useForm } from "react-hook-form";
 import useAxiosPublic from "../customHooks/useAxiosPublic";
+import useAxiosSecure from "../customHooks/useAxiosSecure";
+import Swal from "sweetalert2";
+// import toast from "react-hot-toast";
 
 const image_hosting_key = import.meta.env.VITE_image_hosting_key;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 const AddAItems = () => {
   const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -15,14 +19,32 @@ const AddAItems = () => {
     console.log(data);
     // img upload to imgbb
     const imageFile = { image: data.photo[0] };
-    // console.log(imageFile);
     const res = await axiosPublic.post(image_hosting_api, imageFile, {
       headers: {
         "content-type": "multipart/form-data",
       },
     });
-    console.log(res.data);
-
+    if (res.data.success) {
+      const menuItem = {
+        name: data.name,
+        category: data.category,
+        recipe: data.description,
+        price: parseInt(data.price),
+        image: res.data.data.display_url,
+      };
+      const menuRes = await axiosSecure.post("/menus", menuItem);
+      if (menuRes.data.insertedId) {
+        //show success popup
+        // toast("Item Added Successfully");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "successfully added an item",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    }
     reset();
   };
   return (
