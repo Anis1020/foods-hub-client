@@ -46,6 +46,7 @@ const Registration = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);

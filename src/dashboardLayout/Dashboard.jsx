@@ -1,6 +1,7 @@
 const Dashboard = () => {
   return (
     <div className="p-4">
+      <h1>User Home</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white shadow p-4 rounded">
           <h2 className="text-xl font-bold mb-2">Card Title</h2>

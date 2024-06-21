@@ -26,11 +26,15 @@ const Cart = () => {
         console.log(err);
       });
   };
+  const totalItems = carts.reduce(
+    (accumulator, item) => accumulator + item.price,
+    0
+  );
   return (
     <div className="">
       <div className="flex justify-around items-center mb-4">
         <h1>Total Orders: {carts.length}</h1>
-        <h1>Total Price:</h1>
+        <h1>Total Price: {totalItems}</h1>
         {carts.length ? (
           <Link to={"/payNow"}>
             <button className="btn bg-slate-300">Pay</button>

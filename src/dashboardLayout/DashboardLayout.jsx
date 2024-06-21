@@ -1,4 +1,10 @@
-import { FaHome, FaShoppingCart, FaUsers, FaUtensils } from "react-icons/fa";
+import {
+  FaHistory,
+  FaShoppingCart,
+  FaUser,
+  FaUsers,
+  FaUtensils,
+} from "react-icons/fa";
 import { FaBook, FaList } from "react-icons/fa6";
 import { NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../customHooks/useAdmin";
@@ -10,17 +16,32 @@ const DashboardLayout = () => {
       <ul className="col-span-3 space-y-3 bg-pink-200 min-h-screen px-4 py-8">
         <li className="list-none ">
           <NavLink to={"/"}>Home</NavLink>
-        </li>
+        </li>{" "}
         <li className="list-none flex items-center gap-2">
+          <FaUser></FaUser>
+          <NavLink to={"/userHome"}>User Home</NavLink>
+        </li>
+        {/* <li className="list-none flex items-center gap-2">
           <FaHome></FaHome>
           <NavLink to={"/dashboard"}>Dashboard</NavLink>
-        </li>
+        </li> */}
         <li className="list-none flex items-center gap-2">
           <FaShoppingCart></FaShoppingCart>
           <NavLink to={"/cart"}>Cart </NavLink>
         </li>
+        <li className="list-none flex items-center gap-2">
+          <FaHistory></FaHistory>
+          <NavLink to={"/payHistory"}>Payment History </NavLink>
+        </li>
+        <div className=" border  ">
+          <hr />
+        </div>
         {admin ? (
           <>
+            <li className="list-none flex items-center gap-2">
+              <FaUser></FaUser>
+              <NavLink to={"/adminHome"}>Admin Home</NavLink>
+            </li>
             <li className="list-none flex items-center gap-2">
               <FaUtensils></FaUtensils>
               <NavLink to={"/addAItem"}>Add A Items</NavLink>

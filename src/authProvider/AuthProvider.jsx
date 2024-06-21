@@ -59,12 +59,13 @@ const AuthProvider = ({ children }) => {
       const userEmail = currentUser?.email || user?.email;
       const loggedUser = { email: userEmail };
       setUser(currentUser);
-      setLoading(false);
+
       if (currentUser) {
         axiosPublic
           .post("/jwt", loggedUser, {})
           .then((res) => {
             localStorage.setItem("token", res.data);
+            setLoading(false);
           })
           .catch((err) => {
             console.log(err);
@@ -77,6 +78,7 @@ const AuthProvider = ({ children }) => {
           .then((res) => {
             console.log(res.data);
             localStorage.removeItem("token");
+            setLoading(false);
           })
           .catch((err) => {
             console.log(err);
