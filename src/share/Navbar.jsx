@@ -5,7 +5,7 @@ import useCart from "../customHooks/useCart";
 
 const Navbar = () => {
   const { user, logOutUser } = useAuth();
-  const [cart] = useCart();
+  const [carts] = useCart();
   const handleLogout = () => {
     logOutUser()
       .then((res) => {
@@ -65,7 +65,7 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{navOptions}</ul>
         </div>
         <div className="navbar-end relative">
-          <FaSearch className=" absolute top-4 right-36 text-orange-700" />
+          <FaSearch className=" absolute top-4 right-40 text-orange-700" />
           <input
             type="search"
             name="search"
@@ -77,9 +77,9 @@ const Navbar = () => {
             <FaShoppingCart className="text-4xl mr-4" />
           </Link>
 
-          {/* <p className=" absolute top-2 right-24 text-center font-extrabold  rounded-3xl text-pink-700">
-            {cart.length}
-          </p> */}
+          <p className=" absolute top-2 right-28 text-center font-extrabold  rounded-3xl text-pink-700">
+            {carts.length}
+          </p>
 
           {user ? (
             <button onClick={handleLogout}>

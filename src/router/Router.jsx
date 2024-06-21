@@ -38,6 +38,10 @@ export const router = createBrowserRouter([
         element: <CheckOut></CheckOut>,
       },
       {
+        path: "/payNow",
+        element: <CheckOut></CheckOut>,
+      },
+      {
         path: "/cart/:_id",
         element: <Cart></Cart>,
       },

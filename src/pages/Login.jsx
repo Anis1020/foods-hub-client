@@ -9,7 +9,7 @@ import {
 
 const Login = () => {
   const [showHide, setShowHide] = useState(true);
-  const [disable, setDisable] = useState(true);
+  // const [disable, setDisable] = useState(true);
   const captchaRef = useRef(null);
   const { loginUser, resetPassword, user } = useAuth();
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const Login = () => {
   const handleValidateCaptcha = () => {
     const captchaValue = captchaRef.current.value;
     if (validateCaptcha(captchaValue)) {
-      setDisable(false);
+      // setDisable(false);
     }
     console.log(captchaValue);
   };
@@ -97,6 +97,7 @@ const Login = () => {
             <label className="label">
               <LoadCanvasTemplate />
             </label>
+
             <input
               type="text"
               placeholder="captcha"
@@ -113,9 +114,10 @@ const Login = () => {
             </button>
           </div>
           <div className="form-control mt-6">
+            {/*To do apply disable for re-captcha instead of false*/}
             <input
               className="btn btn-primary "
-              disabled={disable}
+              disabled={false}
               type="submit"
               value="Login"
             />
