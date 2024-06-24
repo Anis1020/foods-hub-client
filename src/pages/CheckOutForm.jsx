@@ -10,8 +10,8 @@ const CheckOutForm = () => {
   const [transactionId, setTransactionId] = useState();
   const [error, setError] = useState("");
   const stripe = useStripe();
-  const [clientSecret, setClientSecret] = useState("");
   const elements = useElements();
+  const [clientSecret, setClientSecret] = useState("");
   const axiosSecure = useAxiosSecure();
   const [carts, refetch] = useCart();
   const navigate = useNavigate();
@@ -22,6 +22,7 @@ const CheckOutForm = () => {
         .post("/create-payment-intent", { price: totalPrice })
         .then((res) => {
           setClientSecret(res.data.clientSecret);
+          console.log(res);
         });
     }
   }, [axiosSecure, totalPrice]);

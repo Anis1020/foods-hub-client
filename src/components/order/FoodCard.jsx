@@ -56,6 +56,13 @@ const FoodCard = ({ menuItem }) => {
       });
     }
   };
+
+  const handleBuyNow = (menuItem) => {
+    axiosSecure.post("/carts", menuItem).then((res) => {
+      console.log(res.data);
+      navigate("/payNow", { state: { from: location } });
+    });
+  };
   return (
     <div>
       <div className="card h-full bg-base-100 shadow-xl">
@@ -70,9 +77,13 @@ const FoodCard = ({ menuItem }) => {
 
           <p>{recipe}</p>
           <div className="card-actions">
-            <Link to={`/checkout/${_id}`}>
-              <button className="btn btn-primary">Buy Now</button>
-            </Link>
+            <button
+              onClick={() => handleBuyNow(menuItem)}
+              className="btn btn-primary"
+            >
+              Buy Now
+            </button>
+
             <Link to={``}>
               <button
                 onClick={() => handleAddToCard(menuItem)}

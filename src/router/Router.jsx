@@ -4,7 +4,6 @@ import HomePage from "../pages/HomePage";
 import Login from "../pages/Login";
 import Registration from "../pages/Registration";
 import ErrorPage from "../share/ErrorPage";
-import Dashboard from "../dashboardLayout/Dashboard";
 import DashboardLayout from "../dashboardLayout/DashboardLayout";
 import AllMenus from "../pages/AllMenus";
 import AddAItems from "../dashboardLayout/AddAItems";
