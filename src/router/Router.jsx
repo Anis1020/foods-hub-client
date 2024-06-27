@@ -88,7 +88,7 @@ export const router = createBrowserRouter([
         path: "/updateItem/:id",
         element: <UpdateItem></UpdateItem>,
         // loader: ({ params }) =>
-        //   fetch(`http://localhost:5000/menus/${params.id}`),
+        //   fetch(`https://digital-solution-foods-hub-server.onrender.com/menus/${params.id}`),
       },
       {
         path: "/cart",

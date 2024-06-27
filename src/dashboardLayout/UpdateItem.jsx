@@ -22,9 +22,13 @@ const UpdateItem = () => {
     formState: { errors },
   } = useForm();
   useEffect(() => {
-    axios.get(`http://localhost:5000/menus/${id.id}`).then(function (res) {
-      setItems(res.data);
-    });
+    axios
+      .get(
+        `https://digital-solution-foods-hub-server.onrender.com/menus/${id.id}`
+      )
+      .then(function (res) {
+        setItems(res.data);
+      });
   }, [id]);
   const onSubmit = async (data) => {
     console.log(data);

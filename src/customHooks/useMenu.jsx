@@ -8,7 +8,7 @@ const useMenu = () => {
   // const axiosPublic = useAxiosPublic;
   const axiosSecure = useAxiosSecure();
   useEffect(() => {
-    // fetch("http://localhost:5000/menus")
+    // fetch("https://digital-solution-foods-hub-server.onrender.com/menus")
     //   .then((res) => res.json())
     //   .then((data) => {
     //     setMenus(data);
